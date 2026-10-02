@@ -29,11 +29,12 @@ public class TaskProcessor {
 
             if (throwCount < 1 || throwCount > 10)
             {
-                writingLogicError(writer);
+                writingLogicError(writer, curIter, throwCount);
                 return;
             }
 
             Random rand = new Random();
+
             int[] luckyArr = new int[throwCount];
             int[] countArr = new int[6];
 
@@ -48,10 +49,12 @@ public class TaskProcessor {
             int max = luckyArr[0];
             for (int i = 1; i < luckyArr.length; i++)
             {
-                if (min > luckyArr[i]) {
+                if (min > luckyArr[i])
+                {
                     min = luckyArr[i];
                 }
-                if (max < luckyArr[i]) {
+                if (max < luckyArr[i])
+                {
                     max = luckyArr[i];
                 }
             }
@@ -59,8 +62,10 @@ public class TaskProcessor {
             printResults(writer, curIter, throwCount, luckyArr, countArr, min, max);
             System.out.println("\n[УВАГА] - Дані успішно записані у файл!\n");
 
-        } catch (IOException e) {
-            System.out.println("[ПОМИЛКА] - Проблема з доступом до файлу: " + e.getMessage());
+        }
+        catch (IOException e)
+        {
+            System.out.println("\n[ПОМИЛКА] - Проблема з доступом до файлу: " + e.getMessage());
         }
     }
 
@@ -76,7 +81,7 @@ public class TaskProcessor {
      */
     private void printResults(PrintWriter writer, int curIter, int throwCount, int[] luckyArr, int[] countArr, int min, int max)
     {
-        String header = "\nНабір №" + curIter + ":\nОтримані дані з файлу input.txt: " + throwCount + " підкидань";
+        String header = "\nНабір №" + curIter + ":\nОтримані дані з файлу config.txt: " + throwCount + " підкидань";
         System.out.println(header);
         writer.println("-".repeat(50));
         writer.println(header);
@@ -85,7 +90,8 @@ public class TaskProcessor {
         System.out.print(arrayMsg);
         writer.print(arrayMsg);
 
-        for (int i : luckyArr) {
+        for (int i : luckyArr)
+        {
             System.out.print(i + " ");
             writer.print(i + " ");
         }
@@ -93,7 +99,8 @@ public class TaskProcessor {
         System.out.println("]\n");
         writer.println("]\n");
 
-        for (int i = 0; i < countArr.length; i++) {
+        for (int i = 0; i < countArr.length; i++)
+        {
             String statMsg = "[УВАГА] - Число " + (i + 1) + " випало " + countArr[i] +
                     (countArr[i] >= 2 && countArr[i] <= 4 ? " рази!" : (countArr[i] >= 5 || countArr[i] == 0 ? " разів!" : " раз!"));
             System.out.println(statMsg);
@@ -118,10 +125,17 @@ public class TaskProcessor {
      * Зберігає в собі текст обробки помилки, якщо введені дані не задовольняють заданий за умовою числовий діапазон
      * @param writer
      */
-    private void writingLogicError(PrintWriter writer) {
-        String errorMsg = "\n[УВАГА] - Дані не задовольняють умову задачі! (Число підкидань має бути більше 1 або менше 10!)\n";
+    private void writingLogicError(PrintWriter writer, int curIter, int throwCount)
+    {
+
+        String errorMsg = "\nНабір №" + curIter + ":\nОтримані дані з файлу config.txt: " +
+                throwCount + " підкидань" +
+                "\n[УВАГА] - Дані не задовольняють умову задачі! (Число підкидань має бути більше 1 або менше 10!)\n";
         System.out.println(errorMsg);
+        writer.println("-".repeat(50));
         writer.println(errorMsg);
+        writer.println("-".repeat(50));
+        writer.println();
     }
 }
 

@@ -19,14 +19,20 @@ public class Main
     {
         if(args.length == 0)
         {
-            System.out.println("\n[ПОМИЛКА] - Файл config.txt порожній!");
+            System.out.println("\n[ПОМИЛКА] - Перелік переданих аргументів командного рядка порожній!");
             return;
         }
+
         try(Scanner fileReader = new Scanner(new File(args[0])))
         {
             if(fileReader.hasNextInt())
             {
                 int iterCount = fileReader.nextInt();
+                if(iterCount <= 0)
+                {
+                    System.out.println("\n[ПОМИЛКА] - Неможливо почати випробування (кількість ітерацій у файлі не є коректним числом)");
+                    return;
+                }
                 TaskProcessor newTask =  new TaskProcessor();
                 for(int i = 0; i < iterCount; i++)
                 {
@@ -40,6 +46,11 @@ public class Main
                         System.out.println("\nКінець файлу - числових значень не виявлено!");
                     }
                 }
+            }
+            else
+            {
+                System.out.println("\n[ПОМИЛКА] - Дані у файлі config.txt не є числовими!");
+                return;
             }
         }
         catch(IOException e)
